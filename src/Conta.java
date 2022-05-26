@@ -5,16 +5,33 @@ public abstract class Conta implements ContaInterface{
     protected int agencia;
     protected int numero;
     protected double saldo;
+    private Cliente cliente;
 
 
-    public Conta(){
+    public Conta(Cliente cliente){
         this.agencia = Conta.AGENCIA_PADRAO;
         this.numero = SEQUENCIAL++;
+        this.cliente = cliente;
     }
 
-    public void sacar(double valor){}
-    public void depositar(double valor){}
-    public void transferir(Conta contaDestino, double valor){}
+    public void sacar(double valor){
+        saldo -= valor;
+    }
+    public void depositar(double valor){
+        saldo += valor;
+    }
+    public void transferir(Conta contaDestino, double valor){
+        this.sacar(valor);
+        contaDestino.depositar(valor);
+    }
+
+
+    protected void imprimirDadosConta() {
+        System.out.println(String.format("Titular: %s",cliente.getNome()));
+        System.out.println(String.format("Agencia: %d", this.agencia));
+        System.out.println(String.format("Numero: %d", this.numero));
+        System.out.println(String.format("Saldo: %.2f", this.saldo));
+    }
 
     public int getAgencia() {
         return agencia;
